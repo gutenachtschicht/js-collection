@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html>
+<!--  (c) 2017 - 2022 nachtschicht under the MIT License https://spdx.org/licenses/MIT.html#licenseText (see license and the end of this file)
+ JavaScript code partly stolen from https://www.w3schools.com/howto/howto_js_countdown.asp and extended under the fair use conditions stated in  https://www.w3schools.com/about/about_copyright.asp: 
+ - copying only portions 
+ - adding significant own functionality
+ - for private fun only
+
+ Version Infos
+  2017-09-01 initial release for Rolf's birthday - also on iwiki without mouse-over functionality
+  2017-09-07 improved with selectable countdown units and refined mouse-over with years and days
+  2019-12-03 added an listcounters.html with all counter options visible when clicking on the image
+  2020-06-06 error correncted in year-day-hours... display
+  2022-01-28 cleanup, moved all text into config file so you can easily change language or purpose for your countdown
+  2022-01-29 moved onto GitHub
+
+ Instructions:
+ - copy this website "listcounters.html" and if you wish "index.html" locally
+ - add a picture with your portrait with the filename "listcounters_portrait.jpg"
+ - add a file named "_countdown-config.js" (see sample and the end of this file)
+ - NOTE: leap years and daylight savings are not considered, so please allow for some inaccuracy if you are young ...
+//-->
+	 
+	<head>
+		<meta name="robots" content="noindex">
+		<meta name="robots" content="nofollow">
+		<style>
+			div {
+			  text-align: center;
+			  font-size: 20px;
+			  color:red;
+			}
+		</style>
+		<script src="_countdown-config.js"></script>
+	</head>
+	<body>
+
+		<div>
+				
+			<table width=100%><tr><td align="center">
+				<div></div>
+			      <a href="index.html"><img src="listcounters_portrait.png" align="middle" id="imglabel" title="hier wird beim überfahren des Bildes mit der Maus statt dieses Titels die Laufzeit in Jahre, Tage, Stunden, Minuten und Sekunden eingeblendet"></img></a>
+			
+					<b><pre id="displayall"></pre></b>			
+					
+					<b><i><pre id="alltext"></pre></i></b>			
+
+					<b>
+					<table align="center">
+						<tr><td align="right"><pre id="displaysec"></pre></td><td align="left"><pre id="unitsec"></pre></td></tr>
+						<tr><td align="right"><pre id="displaymin"></pre></td><td align="left"><pre id="unitmin"></pre></td></tr>
+						<tr><td align="right"><pre id="displayhrs"></pre></td><td align="left"><pre id="unithrs"></pre></td></tr>
+						<tr><td align="right"><pre id="displaydys"></pre></td><td align="left"><pre id="unitdys"></pre></td></tr>
+						<tr><td align="right"><pre id="displaywks"></pre></td><td align="left"><pre id="unitwks"></pre></td></tr>
+						<tr><td align="right"><pre id="displaymth"></pre></td><td align="left"><pre id="unitmth"></pre></td></tr>
+						<tr><td align="right"><pre id="displayyrs"></pre></td><td align="left"><pre id="unityrs"></pre></td></tr>
+					</table>
+					</b>
+					!
+
+			</td></tr></table>
+		</div>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<h4 align=right><i>
+			<a href="https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html">... pr&uuml;fe Deine M&ouml;glichkeiten!</a>
+		</i></h4>
+			
+
+			
+			
+		<script>
+			// Set the date we're counting down to (from "var countdownto" in file "_countdowndate.js")
+			var countDownDate = new Date(countdownto).getTime();
+
+			// Update the count down every 1 second
+			var x = setInterval(function() {
+
+				// Get todays date and time
+				var now = new Date().getTime();
+				
+				// Find the distance between now an the count down date
+				var distance = countDownDate - now;
+
+				// Time calculations for days, hours, minutes and seconds
+
+				//	var years   = Math.floor((distance % (1000 * 60 * 60 * 24 * 365 * 12 )) / (1000 * 60 * 60 * 24 * 365));
+				var years   = Math.floor(distance / (1000 * 60 * 60 * 24 * 365));
+				var days    = Math.floor((distance % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
+				var hours   = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+				
+				var sec = Intl.NumberFormat('de-DE', { minimumFractionDigits: 7 } ).format( distance / 1000 );
+				var min = Intl.NumberFormat('de-DE', { minimumFractionDigits: 7 } ).format( distance / 1000 / 60 );
+				var hrs = Intl.NumberFormat('de-DE', { minimumFractionDigits: 7 } ).format( distance / 1000 / 60 / 60 );
+				var dys = Intl.NumberFormat('de-DE', { minimumFractionDigits: 7 } ).format( distance / 1000 / 60 / 60 / 24 );
+				var wks = Intl.NumberFormat('de-DE', { minimumFractionDigits: 7 } ).format( distance / 1000 / 60 / 60 / 24 / 7);
+				var mth = Intl.NumberFormat('de-DE', { minimumFractionDigits: 7 } ).format( distance / 1000 / 60 / 60 / 24 / 365 * 12);
+				var yrs = Intl.NumberFormat('de-DE', { minimumFractionDigits: 7 } ).format( distance / 1000 / 60 / 60 / 24 / 365 );
+
+				var all = years + stringyears + days + stringdays + hours + stringhours + minutes + stringminutes + seconds + stringseconds;
+
+				document.getElementById("displaysec").innerHTML =  eval("sec");
+				document.getElementById("displaymin").innerHTML =  eval("min");
+				document.getElementById("displayhrs").innerHTML =  eval("hrs");
+				document.getElementById("displaydys").innerHTML =  eval("dys");
+				document.getElementById("displaywks").innerHTML =  eval("wks");
+				document.getElementById("displaymth").innerHTML =  eval("mth");
+				document.getElementById("displayyrs").innerHTML =  eval("yrs");
+
+				document.getElementById("displayall").innerHTML =  eval("all");
+
+
+				// Output the result as mouse over on an image with id="imglabel"
+				document.getElementById("imglabel").title = eval("sec").split(",")[0] + " " + unitsec;
+				
+				// If the count down is over, write some text 
+				if (distance < 0) {
+					clearInterval(x);
+					document.getElementById("imglabel").title = eval("countdownovertext");
+					document.getElementById("displayall").innerHTML = eval("countdownovertext");
+					document.getElementById("alltext").innerHTML = eval("countdownovertime");
+					document.getElementById("displaysec").innerHTML = eval("countdownovertime");
+					document.getElementById("displaymin").innerHTML = eval("countdownovertime");
+					document.getElementById("displayhrs").innerHTML = eval("countdownovertime");
+					document.getElementById("displaydys").innerHTML = eval("countdownovertime");
+					document.getElementById("displaywks").innerHTML = eval("countdownovertime");
+					document.getElementById("displaymth").innerHTML = eval("countdownovertime");
+					document.getElementById("displayyrs").innerHTML = eval("countdownovertime");
+					}
+			}, 1);
+			document.getElementById("imglabel").src =  eval("allpic");
+			document.getElementById("alltext").innerHTML =  "&nbsp;" + eval("alltext");
+			document.getElementById("unitsec").innerHTML =  "&nbsp;" + eval("unitsec");
+			document.getElementById("unitmin").innerHTML =  "&nbsp;" + eval("unitmin");
+			document.getElementById("unithrs").innerHTML =  "&nbsp;" + eval("unithrs");
+			document.getElementById("unitdys").innerHTML =  "&nbsp;" + eval("unitdys");
+			document.getElementById("unitwks").innerHTML =  "&nbsp;" + eval("unitwks");
+			document.getElementById("unitmth").innerHTML =  "&nbsp;" + eval("unitmth");
+			document.getElementById("unityrs").innerHTML =  "&nbsp;" + eval("unityrs");
+		</script>
+
+	<!--
+		SPDX-License-Identifier: MIT
+
+		Copyright (c) 2017-<today> nachtschicht 90715870+gutenachtschicht@users.noreply.github.com
+
+		Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+		software and associated documentation files (the "Software"), to deal in the Software 
+		without restriction, including without limitation the rights to use, copy, modify, 
+		merge, publish, distribute, sublicense, and/or sell copies of the Software, and to 
+		permit persons to whom the Software is furnished to do so, subject to the following 
+		conditions:
+
+		The above copyright notice and this permission notice shall be included in all copies 
+		or substantial portions of the Software.
+
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+		INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+		PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+		HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+		CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR 
+		THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	//-->
+
+	<!--
+Sample config file 
+copy the following text between "begin of sample file" and "end of sample file" 
+into a file named "countdown-config.js" and copy it into the same directory as this file
+
+		
+// -------------- begin of sample file --------------
+		
+// Set the date we're counting down to
+var countdownto = "June 30, 2087 00:00:00";
+
+// ---------------------- pictures ------------------
+
+// Set the picture you want to show in index.html
+var indexpic = "index_portrait.jpg";
+// Set the picture you want to show in listcounters.html
+var allpic = "listcounters_portrait.jpg";
+
+
+// ---------------------- strings ------------------
+
+// Give the text above the countdown in index.html
+var indexhead = "Only";
+// Give the text below the countdown in index.html
+var indexfoot = " to go for your retirement !";
+
+// Give the text between the coufull line and the list with all units 
+var alltext= " is the time you have to wait for your retirement, or ";
+
+// Diplay text when countdown is over
+var countdownovertime = "... time is over ...";
+var countdownovertext = "Congrats for reaching retirement!";
+
+
+// ---------------------- list of units ------------------
+
+// strings for the multi unit countdown line
+var stringyears    = " years ";
+var stringdays     = " days and ";
+var stringhours    = " hours and ";
+var stringminutes  = " minutes and ";
+var stringseconds  = " seconds";
+
+// time units used
+var unitsec = "seconds";
+var unitmin = "minutes";
+var unithrs = "hours";
+var unitdys = "days";
+var unitwks = "weeks";
+var unitmth = "months";
+var unityrs = "years";
+           
+// ---------------- end of sample file ----------------
+		
+	//-->
+
+	</body>
+
+</html>
